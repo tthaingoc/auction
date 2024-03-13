@@ -1,21 +1,33 @@
-import Catalog from "../../features/catalog/Catalog";
-import { Container, CssBaseline } from "@mui/material";
+import { Container, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import Header from "./Header";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const palleteType = darkMode ? 'dark' : 'light';
+  const theme = createTheme({
+    palette: {
+      mode: palleteType,
+      background: {
+        default: (palleteType === 'light') ? '#eaeaea' : '#121212'
+      }
+    }
+  })
+
+  function handleThemeChange() {
+    setDarkMode(!darkMode);
+  }
 
   return (
-    <>
-     <div className='app'>
-      <CssBaseline/>
-      <Header/>
-        <Catalog/>
-          <Container>        
-        </Container>
-      
-     </div>
-    </>
-  )
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
+      <Container>
+        <Outlet />
+      </Container>
+    </ThemeProvider>
+  );
 }
 
 export default App
