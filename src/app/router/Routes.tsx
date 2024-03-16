@@ -6,6 +6,7 @@ import ProductDetails from "../../features/catalog/ProductDetails";
 import AboutPage from "../../features/about/AboutPage";
 import ContactPage from "../../features/contact/ContactPage";
 import NewsPage from "../../features/news/NewsPage";
+import AuctionList from "../../features/auction/AutionList";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
             {path: '', element: <HomePage />},
             {path: 'catalog', element: <Catalog />},
             {path: 'catalog/:id', element: <ProductDetails />},
+            {path: 'auction', element: <AuctionList />},
             {path: 'news', element: <NewsPage />},
             {path: 'about', element: <AboutPage />},
             {path: 'contact', element: <ContactPage />},

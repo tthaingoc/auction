@@ -1,4 +1,5 @@
 export interface Product {
+    RealEstateImages: any;
     id:                 number;
     code:               string;
     name:               string;

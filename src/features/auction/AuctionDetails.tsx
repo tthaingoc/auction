@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { Product } from "../../app/models/product";
 
-export default function ProductDetails() {
+export default function AuctionDetails() {
   const {id} = useParams<{id: string}>();
   const [product, setProducts] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
@@ -27,7 +27,7 @@ export default function ProductDetails() {
             <Grid item xs={6}>
                 <Typography variant='h3'>{product.name}</Typography>
                 <Divider sx={{ mb: 2 }} />
-                <Typography variant='h4' color='secondary'>{(product.price).toFixed(3)}.000 vnđ</Typography>
+                <Typography variant='h4' color='secondary'>{product.price}.000.000</Typography>
                 <TableContainer>
                     <Table>
                         <TableBody sx={{ fontSize: '1.1em' }}>
@@ -45,11 +45,11 @@ export default function ProductDetails() {
                             </TableRow>
                             <TableRow>
                                 <TableCell>Ngày bắt đầu đấu giá</TableCell>
-                                <TableCell>{new Date(product.startTime).toLocaleString()}</TableCell>
+                                <TableCell>{product.startTime instanceof Date ? product.startTime.toDateString() : 'Invalid Date'}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>Ngày kết thúc đấu giá</TableCell>
-                                <TableCell>{new Date(product.endTime).toLocaleString()}</TableCell>
+                                <TableCell>{product.startTime instanceof Date ? product.endTime.toDateString() : 'Invalid Date'}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>Giá khởi điểm</TableCell>

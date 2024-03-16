@@ -1,12 +1,12 @@
-import { ShoppingCart } from "@mui/icons-material";
+
 import { AppBar, Toolbar, Typography, Switch, List, ListItem, IconButton, Box, Badge } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 const midLinks = [
-  {title: 'catalog', path: '/catalog'},
-  {title: 'news', path: '/news'},
-  {title: 'about', path: '/about'},
-  {title: 'contact', path: '/contact'},
+  {title: 'Estates', path: '/catalog'},
+  {title: 'News', path: '/news'},
+  {title: 'About', path: '/about'},
+  {title: 'Contact', path: '/contact'},
 ]
 const rightLinks = [
   {title: 'login', path: '/login'},
@@ -23,12 +23,12 @@ const navStyles = {
   }                     
 }
 
-interface Props {
-  darkMode: boolean;
-  handleThemeChange: () => void;
-}
+// interface Props {
+//   darkMode: boolean;
+//   handleThemeChange: () => void;
+// }
 
-export default function Header({handleThemeChange, darkMode}: Props) {
+export default function Header() {
   return (
       <AppBar position='static' sx={{mb: 4}}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -37,8 +37,7 @@ export default function Header({handleThemeChange, darkMode}: Props) {
                 sx={{color:'inherit', textDecoration:'none'}}
               >
                   Đấu Giá Nhà Đất
-              </Typography>
-              <Switch checked={darkMode} onChange={handleThemeChange}  />
+              </Typography>            
               </Box>
 
               <List sx={{display:'flex'}} >

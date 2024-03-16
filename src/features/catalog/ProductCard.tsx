@@ -7,6 +7,7 @@ interface Props {
 }
 
 export default function ProductCard({ product }: Props) {
+    
     return (
         <Card>
             <CardHeader
@@ -26,15 +27,18 @@ export default function ProductCard({ product }: Props) {
                 title={product.name}
             />
             <CardContent>
-                <Typography gutterBottom color='secondary' variant="h5" component="div">
-                    Giá : {product.price}.000.000 Vnđ
+                <Typography gutterBottom color='secondary' variant="h6" component="div">
+                Ngày đấu giá :  {new Date(product.startTime).toLocaleString()}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {product.description}
+                   Địa chỉ : {product.address}                
+                </Typography>
+                <Typography variant="body2" color="text.primary">
+                   Giá khởi điểm : {product.startPrice}.000.000 VNĐ                
                 </Typography>               
             </CardContent>
             <CardActions>
-                <Button size="small">Đấu giá</Button>
+                <Button component={Link} to={`/auction`} size="small">Xem đấu giá</Button>
                 <Button component={Link} to={`/catalog/${product.id}`} size="small">Xem chi tiết</Button>
             </CardActions>
         </Card>
