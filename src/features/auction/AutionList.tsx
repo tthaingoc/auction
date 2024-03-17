@@ -1,28 +1,22 @@
 import { useEffect, useState } from 'react'
 import { Auction } from '../../app/models/auction';
-import { Typography, Grid, CssBaseline } from '@mui/material';
+import { Typography, Grid, Alert, AlertTitle, List, ListItem, ListItemText } from '@mui/material';
 import AuctionCard from './AuctionCard';
-import AuctionCardB from './AuctionCardB';
+import agent from '../../app/api/agent';
 
 
 export default function AuctionList() {
-    const [ongoingAuctions, setOngoingAuctions] = useState<Auction[]>([]);
     const [upcomingAuctions, setUpcomingAuctions] = useState<Auction[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
-    useEffect(() => {
-        fetch('https://localhost:5001/api/Auction/TodayAuction')
-            .then(response => response.json())
-            .then(data => {setLoading(false); setOngoingAuctions(data)});
 
-        fetch('https://localhost:5001/api/Auction/UpcomingAuction')
-            .then(response => response.json())
-            .then(data => setUpcomingAuctions(data));
+    useEffect(() => {       
+        agent.Auction.list().then(auction => setUpcomingAuctions(auction)).catch(error => setValidationErrors(error));
     }, []);
 
     return (
         <>                         
-            <Typography variant="h6" gutterBottom className='content-element'>
+            <Typography variant="h6" gutterBottom className='content-element' style={{ marginBottom: '50px' }}>
                 Các cuộc đấu giá đang diễn ra
             </Typography>
             <Grid container spacing={4}>
@@ -32,6 +26,17 @@ export default function AuctionList() {
                     </Grid>
                 ))}
             </Grid>
+            {validationErrors.length > 0 &&
+                <Alert severity="error">
+                    <AlertTitle>Validation Errors</AlertTitle>
+                    <List>
+                        {validationErrors.map(error => (
+                            <ListItem key={error}>
+                                <ListItemText>{error}</ListItemText>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Alert>}
         </>
     );
 }

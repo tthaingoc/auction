@@ -3,6 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/error/NotFound";
+import LoadingCom from "../../app/layout/LoadingCom";
 
 export default function ProductDetails() {
   const {id} = useParams<{id: string}>();
@@ -10,14 +13,14 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get(`https://localhost:5001/api/RealEstate/${id}`)
-      .then(response => setProducts(response.data))
+    id && agent.Catalog.details(parseInt(id))
+      .then(response => setProducts(response))
       .catch(error => console.log(error))
       .finally(() => setLoading(false))
   }, [id])
 
-  if(loading) return <h3>Loading ... </h3>
-  if(!product) return <h3>Product not found ...</h3>
+  if(loading) return <LoadingCom message='Loading Real Estate ...' />
+  if(!product) return <NotFound/>
 
   return (
     <Grid container spacing={6}>
