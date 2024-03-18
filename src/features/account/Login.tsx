@@ -2,24 +2,21 @@ import { LockOutlined } from '@mui/icons-material';
 import { Container, Paper, Avatar, Typography, Box, TextField, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
-import { useState } from 'react';
 import agent from '../../app/api/agent';
+import { FieldValues, useForm } from 'react-hook-form';
 
 
 export default function Login() {
-    const [values, setValues] = useState({
-        userName: '',
-        password: ''
+    const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({
+        mode: 'onTouched'
     })
- 
-    const handleSubmit = (event: any) => {
-        event.preventDefault()
-        agent.Account.login(values);
-    }
-
-    function handleInputChange(event: any) {
-        const {name, value} = event.target;
-        setValues({...values, [name]: value});
+   
+    async function submitForm(data: FieldValues) {
+        try {
+           await agent.Account.login(data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -34,31 +31,31 @@ export default function Login() {
                 Sign in
             </Typography>
             <Box component="form"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(submitForm)}
                 noValidate sx={{ mt: 1 }}
             >
                 <TextField
                     margin="normal"
                     fullWidth
                     label="Username"
-                    name="userName"
                     autoFocus
-                    onChange={handleInputChange}
-                    value={values.userName}             
+                    {...register('userName', {required: 'Username is required'})} 
+                    error={!!errors.userName}
+                    helperText={errors?.userName?.message as string}      
                 />
                 <TextField
                     margin="normal"
                     fullWidth
                     label="Password"
                     type="password"
-                    id="password"
-                    name="password"                   
-                    onChange={handleInputChange}
-                    value={values.password}     
+                    id="password"                 
+                    {...register('password', {required: 'Password is required'})}
+                    error={!!errors.password}
+                    helperText={errors?.password?.message as string}
                 />
                  <LoadingButton 
-                    // loading={isSubmitting} 
-                    // disabled={!isValid }
+                    loading={isSubmitting} 
+                    disabled={!isValid }
                     type="submit" 
                     fullWidth 
                     variant="contained" sx={{ mt: 3, mb: 2 }}
