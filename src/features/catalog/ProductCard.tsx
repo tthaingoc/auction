@@ -40,7 +40,7 @@ export default function ProductCard({ product }: Props) {
             />
             <CardContent>
                 <Typography gutterBottom color='secondary' variant="h6" component="div">
-                Ngày đấu giá :  {new Date(product.startTime).toLocaleString()}
+                Ngày đấu giá : {new Date(product.startTime).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                    Địa chỉ : {product.address}                

@@ -1,11 +1,18 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
+import { store } from "../store/configureStore";
 
 axios.defaults.baseURL = 'https://localhost:5001/api/';
 axios.defaults.withCredentials = true;
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 const responseBody = (response: AxiosResponse) => response.data;
+
+axios.interceptors.request.use(config => {
+    const token = store.getState().account.user?.token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config
+})
 
 //using ..  error handling
 axios.interceptors.response.use(async response => {
@@ -25,6 +32,9 @@ axios.interceptors.response.use(async response => {
                 throw modelStateErrors.flat();
             }
             toast.error(data.title);
+            break;
+        case 401:
+            toast.error(data.title || 'Unauthorized');
             break;
         default:
             break;
@@ -56,8 +66,8 @@ const Order = {
 }
 const Account = {
     login: (values: any) => requests.post('Account/Login', values),
-    register: (values: any) => requests.post('account/register', values),
-    currentUser: () => requests.get('account/currentUser')
+    register: (values: any) => requests.post('Account/Register', values),
+    currentUser: () => requests.get('Account/GetAccountById/profile')
 }
 
 

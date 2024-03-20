@@ -1,6 +1,8 @@
 
 import { AppBar, Toolbar, Typography, Switch, List, ListItem, IconButton, Box, Badge } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
   {title: 'Estates', path: '/catalog'},
@@ -29,6 +31,7 @@ const navStyles = {
 // }
 
 export default function Header() {
+  const {user} = useAppSelector(state => state.account);
   return (
       <AppBar position='static' sx={{mb: 4}}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -51,6 +54,14 @@ export default function Header() {
                       {title.toLocaleUpperCase()}
                   </ListItem>
                 ))}
+                {user &&
+                 <ListItem
+                      component={NavLink}
+                      to={'/inventory'}
+                      sx={navStyles}
+                  >
+                      INVENTORY
+                  </ListItem>}
               </List>
 
               <Box display='flex' alignItems='center'>
@@ -60,18 +71,22 @@ export default function Header() {
                         </Badge>
                     </IconButton> */}
 
-              <List sx={{display:'flex'}} >
-                {rightLinks.map(({title,path}) => (
-                  <ListItem
-                      component={NavLink}
-                      to={path}
-                      key={path}
-                      sx={navStyles}
-                  >
-                      {title.toLocaleUpperCase()}
-                  </ListItem>
-                ))}
-              </List>
+                    {user ? (
+                        <SignedInMenu/>
+                    ) : (
+                      <List sx={{display:'flex'}} >
+                      {rightLinks.map(({title,path}) => (
+                        <ListItem
+                            component={NavLink}
+                            to={path}
+                            key={path}
+                            sx={navStyles}
+                        >
+                            {title.toLocaleUpperCase()}
+                        </ListItem>
+                      ))}
+                    </List>
+                    )}
               </Box>
           </Toolbar>
       </AppBar>

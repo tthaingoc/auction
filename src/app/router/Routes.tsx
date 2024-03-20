@@ -9,6 +9,8 @@ import NewsPage from "../../features/news/NewsPage";
 import AuctionList from "../../features/auction/AutionList";
 import NotFound from "../error/NotFound";
 import Login from "../../features/account/Login";
+import Register from "../../features/account/Register";
+import Inventory from "../../features/admin/Inventory";
 //import Register from "../../features/account/Register";
 
 
@@ -25,7 +27,8 @@ export const router = createBrowserRouter([
             {path: 'about', element: <AboutPage />},
             {path: 'contact', element: <ContactPage />}, 
             {path: 'login', element: <Login />}, 
-           // {path: 'register', element: <Register />}, 
+            {path: 'inventory', element: <Inventory />}, 
+            {path: 'register', element: <Register />}, 
             {path: 'not-found', element: <NotFound />},           
             {path: '*', element: <Navigate replace to='/not-found' />},           
         ]

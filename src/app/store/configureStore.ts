@@ -3,6 +3,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { counterSlice } from "../../features/contact/maintainSlice"
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { accountSlice } from "../../features/account/accountSlice"
 
 
 // export default function configureStore() {
@@ -11,7 +12,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
 
 export const store  = configureStore({
     reducer: {
-        counter: counterSlice.reducer
+        counter: counterSlice.reducer,
+        account: accountSlice.reducer
     }
 })
 export type RootState = ReturnType<typeof store.getState>
