@@ -35,12 +35,12 @@ export default function ProductCard({ product }: Props) {
             />
             <CardMedia
                 sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
-                image={""}
+                image={product.image}
                 title={product.name}
             />
             <CardContent>
                 <Typography gutterBottom color='secondary' variant="h6" component="div">
-                Ngày đấu giá : {new Date(product.startTime).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                Ngày khởi tạo : {new Date(product.dateSubmited).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                    Địa chỉ : {product.address}                

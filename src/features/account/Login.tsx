@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../app/store/configureStore';
-import { SignInUser } from './accountSlice';
+import { signInUser } from './accountSlice';
 
 
 export default function Login() {
@@ -16,7 +16,7 @@ export default function Login() {
    
     async function submitForm(data: FieldValues) {
         try {
-            await dispatch(SignInUser(data))
+            await dispatch(signInUser(data))
             navigate('catalog')
         } catch (error) {
             console.log(error)

@@ -13,8 +13,8 @@ const initialState: AccountState = {
     user: null
 }
 
-export const SignInUser = createAsyncThunk<User, FieldValues>(
-    'Account/Login',
+export const signInUser = createAsyncThunk<User, FieldValues>(
+    'account/signInUser',
     async (data, thunkAPI) => {
         try {
             const user = await agent.Account.login(data);
@@ -26,52 +26,53 @@ export const SignInUser = createAsyncThunk<User, FieldValues>(
     }
 )
 
+export const fetchCurrentUser = createAsyncThunk<User>(
+    'account/fetchCurrentUser',
+    async (_, thunkAPI) => {
+        thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)))
+        try {
+            const userDto = await agent.Account.currentUser();                      
+            localStorage.setItem('user', JSON.stringify(userDto));
+            return userDto;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }, 
+    {
+        condition: () => {
+            if (!localStorage.getItem('user')) return false;
+        }
+    }
+)
+
+
 // export const fetchCurrentUser = createAsyncThunk<User>(
-//     'Account/GetAccountById/profile',
+//     'account/fetchCurrentUser',
 //     async (_, thunkAPI) => {
-//         thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)))
-//         try {
-//             const user = await agent.Account.currentUser();
-//             localStorage.setItem('user', JSON.stringify(user));
-//             return user;
-//         } catch (error : any) {
-//             return thunkAPI.rejectWithValue({error: error.data});
+//         const storedUser = localStorage.getItem('user');
+//         if (storedUser) {
+//             try {
+//                 const user = JSON.parse(storedUser);
+//                 // Authenticate user using stored token
+//                 // For example:
+//                 // const user = await agent.Account.authenticate(userToken);
+//                 // where `userToken` is stored in user.token
+//                 return user;
+//             } catch (error) {
+//                 // If there's an error during authentication, clear local storage
+//                 localStorage.removeItem('user');
+//                 return thunkAPI.rejectWithValue({ error: 'Authentication failed' });
+//             }
+//         } else {
+//             return thunkAPI.rejectWithValue({ error: 'User not found in local storage' });
 //         }
 //     },
 //     {
-//         condition: () => {
-//             if(!localStorage.getItem('user')) return false;
-//         }
-//     }
-// )
-
-export const fetchCurrentUser = createAsyncThunk<User>(
-    'Account/GetAccountById/profile',
-    async (_, thunkAPI) => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                const user = JSON.parse(storedUser);
-                // Authenticate user using stored token
-                // For example:
-                // const user = await agent.Account.authenticate(userToken);
-                // where `userToken` is stored in user.token
-                return user;
-            } catch (error) {
-                // If there's an error during authentication, clear local storage
-                localStorage.removeItem('user');
-                return thunkAPI.rejectWithValue({ error: 'Authentication failed' });
-            }
-        } else {
-            return thunkAPI.rejectWithValue({ error: 'User not found in local storage' });
-        }
-    },
-    {
-                condition: () => {
-                    if(!localStorage.getItem('user')) return false;
-                }
-            }
-);
+//                 condition: () => {
+//                     if(!localStorage.getItem('user')) return false;
+//                 }
+//             }
+// );
 
 export const accountSlice = createSlice({
     name: 'account',
@@ -83,7 +84,9 @@ export const accountSlice = createSlice({
             router.navigate('/login')           
         },
         setUser: (state, action) => {
-            state.user = action.payload
+            const claims = JSON.parse(atob(action.payload.token.split('.')[1]));
+            const roles = claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+            state.user = {...action.payload, roles: typeof(roles) === 'string' ? [roles] : roles}
         }
     },
     extraReducers: (builder => {
@@ -94,10 +97,12 @@ export const accountSlice = createSlice({
             router.navigate('/login')
             
         })
-        builder.addMatcher(isAnyOf(SignInUser.fulfilled,fetchCurrentUser.fulfilled), (state, action) => {
-            state.user = action.payload
+        builder.addMatcher(isAnyOf(signInUser.fulfilled,fetchCurrentUser.fulfilled), (state, action) => {
+            const claims = JSON.parse(atob(action.payload.token.split('.')[1]));
+            const roles = claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+            state.user = {...action.payload, roles: typeof(roles) === 'string' ? [roles] : roles}
         });
-        builder.addMatcher(isAnyOf(SignInUser.rejected), (state, action)=>{
+        builder.addMatcher(isAnyOf(signInUser.rejected), (state, action)=>{
             console.log(action.payload)
         })
     })

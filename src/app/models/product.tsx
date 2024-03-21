@@ -1,5 +1,4 @@
 export interface Product {
-    RealEstateImages: any;
     id:                 number;
     code:               string;
     name:               string;
@@ -9,23 +8,16 @@ export interface Product {
     address:            string;
     province:           string;
     description:        string;
-    dateSubmited:       Date;
+    dateSubmited?:       Date;
     isAvailable:        boolean;
-    startTime:          Date;
-    endTime:            Date;
+    startTime?:          Date;
+    endTime?:            Date;
     realEstateStatus:   number;
-    realEstateImages:   RealEstateImage[];
     accountId:          number;
     typeOfRealEstateId: number;
     typeOfRealEstate:   TypeOfRealEstate;
     auctionId:          number;
-}
-
-export interface RealEstateImage {
-    id:           number;
-    imageURL:     string;
-    realEstateId: number;
-    realEstate:   string;
+    image?: FileList;
 }
 
 export interface TypeOfRealEstate {

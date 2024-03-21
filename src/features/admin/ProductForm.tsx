@@ -6,6 +6,10 @@ import { useEffect } from "react";
 import AppDropzone from "../../app/components/AppDropzone";
 import {yupResolver} from '@hookform/resolvers/yup';
 import { validationSchema } from "./productValidation";
+import agent from "../../app/api/agent";
+import { useAppDispatch } from "../../app/store/configureStore";
+import { setProduct } from "../catalog/catalogSlice";
+import { LoadingButton } from "@mui/lab";
 
 
 
@@ -15,19 +19,33 @@ interface Props {
 }
 
 export default function ProductForm({product, cancelEdit}: Props) {
-    const {control, reset, handleSubmit, watch} = useForm({
+    const {control, reset, handleSubmit, watch, formState: {isDirty, isSubmitting}} = useForm({
         resolver: yupResolver<any>(validationSchema)
     });
     
     const watchFile = watch('file', null)
-    
+    const dispatch = useAppDispatch();
 
     useEffect(()=>{
-        if (product) reset(product);
-    }, [product, reset])
+        if (product && !watchFile && !isDirty) reset(product);
+        return () => {
+            if(watchFile) URL.revokeObjectURL(watchFile.preview)
+        }
+    }, [product, reset, watchFile, isDirty])
 
-    function handleSubmitData(data: FieldValues) {
-            console.log(data);
+    async function handleSubmitData(data: FieldValues) {
+        try {
+            let response : Product;
+            if(product) {
+                response = await agent.Admin.updateProduct(product.id, data);
+            } else {
+                response = await agent.Admin.createProduct(data);
+            }
+            dispatch(setProduct(response));
+            cancelEdit();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -38,10 +56,10 @@ export default function ProductForm({product, cancelEdit}: Props) {
             <form onSubmit={handleSubmit(handleSubmitData)}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
-                    <AppTextInput control={control} name='code' label='Estates code' />
+                    <AppTextInput control={control} name='code' label='code' />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <AppTextInput control={control} name='name' label='Name' />
+                    <AppTextInput control={control} name='name' label='name' />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <AppTextInput type='number' control={control} name='price' label='Price' />
@@ -64,20 +82,20 @@ export default function ProductForm({product, cancelEdit}: Props) {
                 <Grid item xs={12} sm={12}>
                     <AppTextInput control={control} name='auctionId' label='AuctionId' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                 <Grid item xs={12} sm={6}>
                     <Box display='flex' justifyContent='space-between' alignItems='center'>
                     <AppDropzone control={control} name='file'/>
                     {watchFile? (
                         <img src={watchFile.preview} alt="preview" style={{maxHeight: 200}}/>
                     ):(
-                        <img src={product?.RealEstateImages} alt={product?.name} style={{maxHeight: 200}}/>
+                        <img src={product?.name} alt={product?.name} style={{maxHeight: 200}}/>
                     )}
                     </Box>             
-                </Grid>
+                </Grid>  
             </Grid>
             <Box display='flex' justifyContent='space-between' sx={{mt: 3}}>
                 <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
-                <Button type='submit' variant='contained' color='success'>Submit</Button>
+                <LoadingButton loading={isSubmitting} type='submit' variant='contained' color='success'>Submit</LoadingButton>
             </Box>
             </form>
         </Box>

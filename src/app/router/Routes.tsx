@@ -30,8 +30,7 @@ export const router = createBrowserRouter([
             {path: 'news', element: <NewsPage />},
             {path: 'about', element: <AboutPage />},
             {path: 'contact', element: <ContactPage />}, 
-            {path: 'login', element: <Login />}, 
-            
+            {path: 'login', element: <Login />},           
             {path: 'register', element: <Register />}, 
             {path: 'not-found', element: <NotFound />},           
             {path: '*', element: <Navigate replace to='/not-found' />},           
