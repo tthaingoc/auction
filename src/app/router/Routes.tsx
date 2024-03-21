@@ -11,6 +11,7 @@ import NotFound from "../error/NotFound";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import Inventory from "../../features/admin/Inventory";
+import Authentication from "./Authentication";
 //import Register from "../../features/account/Register";
 
 
@@ -19,15 +20,18 @@ export const router = createBrowserRouter([
         path: '/',
         element: <App />,
         children: [
+            {element: <Authentication/>, children:[
+                {path: 'auction', element: <AuctionList />},
+                {path: 'inventory', element: <Inventory />}, 
+            ]},
             {path: '', element: <HomePage />},
             {path: 'catalog', element: <Catalog />},
             {path: 'catalog/:id', element: <ProductDetails />},
-            {path: 'auction', element: <AuctionList />},
             {path: 'news', element: <NewsPage />},
             {path: 'about', element: <AboutPage />},
             {path: 'contact', element: <ContactPage />}, 
             {path: 'login', element: <Login />}, 
-            {path: 'inventory', element: <Inventory />}, 
+            
             {path: 'register', element: <Register />}, 
             {path: 'not-found', element: <NotFound />},           
             {path: '*', element: <Navigate replace to='/not-found' />},           

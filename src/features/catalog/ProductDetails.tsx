@@ -1,25 +1,31 @@
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import { Product } from "../../app/models/product";
-import agent from "../../app/api/agent";
 import NotFound from "../../app/error/NotFound";
 import LoadingCom from "../../app/layout/LoadingCom";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { fetchProductAsync, productSelectors } from "./catalogSlice";
 
 export default function ProductDetails() {
-  const {id} = useParams<{id: string}>();
-  const [product, setProducts] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
+    const dispatch = useAppDispatch();
+    const { id } = useParams<{ id: string }>();
+    const product = useAppSelector(state => productSelectors.selectById(state, parseInt(id!)));
+    const {status: productStatus} = useAppSelector(state => state.catalog);
+  
+ // const [loading, setLoading] = useState(true)
+//   useEffect(() => {
+//     id && agent.Catalog.details(parseInt(id))
+//       .then(response => setProducts(response))
+//       .catch(error => console.log(error))
+//       .finally(() => setLoading(false))
+//   }, [id])
 
-  useEffect(() => {
-    id && agent.Catalog.details(parseInt(id))
-      .then(response => setProducts(response))
-      .catch(error => console.log(error))
-      .finally(() => setLoading(false))
-  }, [id])
+    useEffect(() => {
+        if(!product) dispatch(fetchProductAsync(parseInt(id!)));
+    },[id, dispatch, product])
 
-  if(loading) return <LoadingCom message='Loading Real Estate ...' />
+//  if(loading) return <LoadingCom message='Loading Real Estate ...' />
+if (productStatus.includes('pending')) return <LoadingCom message="Loading Real Estates..." />
   if(!product) return <NotFound/>
 
   return (

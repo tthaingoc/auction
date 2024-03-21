@@ -1,33 +1,29 @@
-import { Edit, Delete } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 import { Box, Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 //import { currencyFormat } from '../../app/util/util';
 
 //import AppPagination from '../../app/components/AppPagination';
 import { useAppDispatch } from '../../app/store/configureStore';
 //import { removeProduct, setPageNumber } from '../catalog/catalogSlice';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 //import ProductForm from './ProductForm';
 import { Product } from '../../app/models/product';
-import agent from '../../app/api/agent';
-import { LoadingButton } from '@mui/lab';
-import LoadingCom from '../../app/layout/LoadingCom';
 import ProductForm from './ProductForm';
+import useProducts from '../../app/hooks/useProducts';
 //import useProducts from '../../app/hooks/useProducts';
 
 export default function Inventory() {
     
-    const [products, setProducts] = useState<Product[]>([]);
-
-    useEffect(() => {
-     agent.Catalog.list().then(products => setProducts(products))
-                            .catch(error => console.log(error))
-                                .finally(() => setLoading(false));
-    }, [])
+    //const [products, setProducts] = useState<Product[]>([]);
+    // useEffect(() => {
+    //  agent.Catalog.list().then(products => setProducts(products))
+    //                         .catch(error => console.log(error))
+    //                             .finally(() => setLoading(false));
+    // }, [])
+    const {products} = useProducts()
     const [editMode, setEditMode] = useState(false);
     const dispatch = useAppDispatch();
     const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
-    const [loading, setLoading] = useState(false);
-    const [target, setTarget] = useState(0);
 
     function handleSelectProduct(product: Product) {
         setSelectedProduct(product);
@@ -67,11 +63,12 @@ export default function Inventory() {
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
-                            <TableCell align="left">Product</TableCell>
-                            <TableCell align="right">Price</TableCell>
-                            <TableCell align="center">Type</TableCell>
-                            <TableCell align="center">Brand</TableCell>
-                            <TableCell align="center">Quantity</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            {/* <TableCell align="left">Image</TableCell> */}
+                            <TableCell align="left">Address</TableCell>
+                            <TableCell align="center"> Price</TableCell>
+                            <TableCell align="center">StartPrice</TableCell>
+                            <TableCell align="center">Available</TableCell>
                             <TableCell align="right"></TableCell>
                         </TableRow>
                     </TableHead>
@@ -84,16 +81,17 @@ export default function Inventory() {
                                 <TableCell component="th" scope="row">
                                     {product.id}
                                 </TableCell>
-                                <TableCell align="left">
+                                {/* <TableCell align="left">
                                     <Box display='flex' alignItems='center'>
                                         <img src={product.RealEstateImages} alt={product.name} style={{ height: 50, marginRight: 20 }} />
                                         <span>{product.name}</span>
                                     </Box>
-                                </TableCell>
-                                <TableCell align="right">{product.price}</TableCell>
-                                <TableCell align="center">{product.name}</TableCell>
-                                <TableCell align="center">{product.name}</TableCell>
-                                <TableCell align="center">{product.name}</TableCell>
+                                </TableCell> */}
+                                <TableCell align="left">{product.name}</TableCell>
+                                <TableCell align="left">{product.address}</TableCell>
+                                <TableCell align="center">{product.price}</TableCell>
+                                <TableCell align="center">{product.startPrice}</TableCell>
+                                <TableCell align="center">{product.realEstateStatus === 1 ? "Yes" : "No"}</TableCell>
                                 <TableCell align="right">
                                     <Button
                                         startIcon={<Edit />}
