@@ -9,3 +9,4 @@ export interface Auction {
     realEstates:   Product[];
     id:            number;
 }
+

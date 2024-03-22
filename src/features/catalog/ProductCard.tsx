@@ -24,29 +24,34 @@ export default function ProductCard({ product }: Props) {
         <Card>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: 'secondary.main' }}>
-                        {product.name.charAt(0).toUpperCase()}
+                    <Avatar sx={{ bgcolor: 'success.main' }}>
+                        {product.code.charAt(0).toUpperCase()}
                     </Avatar>
                 }
-                title={product.name}
+                title= {"Bất Động Sản :" + product.code}
                 titleTypographyProps={{
                     sx: { fontWeight: 'bold', color: 'primary.main' }
                 }}
             />
-            <CardMedia
-                sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
-                image={product.image}
-                title={product.name}
-            />
+            {product.realEstateImages && product.realEstateImages.length > 0 && (
+    <CardMedia
+        sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
+        image={product.realEstateImages[0].imageURL}
+        title={product.code}
+    />
+)}
             <CardContent>
-                <Typography gutterBottom color='secondary' variant="h6" component="div">
-                Ngày khởi tạo : {new Date(product.dateSubmited).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                <Typography gutterBottom color='info.main' variant="h6" component="div">
+                        {product.name}   
+                </Typography>
+                <Typography variant="body1" color="text.primary">
+                   Giá khởi điểm : {product.startPrice} triệu VNĐ                                
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                   Địa chỉ : {product.address}                
-                </Typography>
-                <Typography variant="body2" color="text.primary">
-                   Giá khởi điểm : {product.startPrice}.000.000 VNĐ                
+                   Địa chỉ : {product.address} {product.province}               
+                </Typography>             
+                <Typography variant="body2" color="text.secondary">
+                Ngày khởi tạo : {new Date(product.dateSubmited).toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                 </Typography>               
             </CardContent>
             <CardActions>

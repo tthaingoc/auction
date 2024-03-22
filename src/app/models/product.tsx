@@ -8,20 +8,25 @@ export interface Product {
     address:            string;
     province:           string;
     description:        string;
-    dateSubmited?:       Date;
+    dateSubmited:       Date;
     isAvailable:        boolean;
-    startTime?:          Date;
-    endTime?:            Date;
+    startTime:          Date;
+    endTime:            Date;
     realEstateStatus:   number;
+    realEstateImages:   RealEstateImage[];
     accountId:          number;
     typeOfRealEstateId: number;
     typeOfRealEstate:   TypeOfRealEstate;
     auctionId:          number;
-    image?: FileList;
+}
+
+export interface RealEstateImage {
+    id:           number;
+    imageURL:     string;
+    realEstateId: number;
 }
 
 export interface TypeOfRealEstate {
     id:          number;
     name:        string;
-    realEstates: string[];
 }

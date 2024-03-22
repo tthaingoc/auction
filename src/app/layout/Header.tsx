@@ -39,7 +39,7 @@ export default function Header() {
               <Typography variant="h6" component={NavLink} to='/'
                 sx={{color:'inherit', textDecoration:'none'}}
               >
-                  Đấu Giá Nhà Đất
+                 Real Estates Auctions
               </Typography>            
               </Box>
 

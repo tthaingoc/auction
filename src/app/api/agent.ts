@@ -74,9 +74,9 @@ const Catalog = {
     details: (id: number) => requests.get(`RealEstate/${id}`)
 }
 const Auction = {
-    list: () => requests.get('Auction/TodayAuction'),
-    getValidationError: () => requests.get('Auction/TodayAuction'),
-    details: (id: number) => requests.get(`Auction/TodayAuction/${id}`)
+    list: () => requests.get('Auction/UpcomingAuction'),
+    getValidationError: () => requests.get('Auction/UpcomingAuction'),
+    details: (id: number) => requests.get(`Auction/UpcomingAuction/${id}`)
 }
 
 const Order = {

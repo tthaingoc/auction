@@ -12,12 +12,12 @@ export default function AppDropzone(props: Props) {
     const dzStyles = {
         display: 'flex',
         border: 'dashed 3px #eee',
-        borderColor: '#eee',
+        borderColor: 'blue',
         borderRadius: '5px',
         paddingTop: '30px',
         alignItems: 'center',
-        height: 200,
-        width: 500
+        height: 100,
+        width: 300
     }
 
     const dzActive = {

@@ -10,9 +10,5 @@ export const validationSchema = yup.object({
     province: yup.string().required('Province is required'),
     description: yup.string().required('Description is required'),
     auctionId: yup.number().required('AuctionId is required').positive('AuctionId must be positive'),
-    file: yup.mixed().when('image', {
-        is: (value: string) => !value,
-        then: schema => schema.required('please upload image'),
-        otherwise: schema => schema.notRequired()
-    }).required()
+    image: yup.string()
 });

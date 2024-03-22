@@ -6,12 +6,12 @@ import agent from '../../app/api/agent';
 
 
 export default function AuctionList() {
-    const [upcomingAuctions, setUpcomingAuctions] = useState<Auction[]>([]);
+    const [upcomingAuction, setUpcomingAuction] = useState<Auction[]>([]);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
 
     useEffect(() => {       
-        agent.Auction.list().then(auction => setUpcomingAuctions(auction)).catch(error => setValidationErrors(error));
+        agent.Auction.list().then(auctions => setUpcomingAuction(auctions)).catch(error => setValidationErrors(error));
     }, []);
 
     return (
@@ -20,7 +20,7 @@ export default function AuctionList() {
                 Các cuộc đấu giá đang diễn ra
             </Typography>
             <Grid container spacing={4}>
-                {upcomingAuctions.map(auction => (
+                {upcomingAuction.map(auction => (
                     <Grid item xs={3} key={auction.id}>
                         <AuctionCard auctionOn={auction} />
                     </Grid>

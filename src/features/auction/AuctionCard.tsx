@@ -17,7 +17,7 @@ export default function AuctionCard({ auctionOn }: Props) {
             />
             <CardMedia
                 sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
-                image={""}
+                image={auctionOn.title}
                 title={auctionOn.title}
             />
             <CardContent>
