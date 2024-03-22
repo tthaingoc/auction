@@ -18,6 +18,7 @@ export interface Product {
     typeOfRealEstateId: number;
     typeOfRealEstate:   TypeOfRealEstate;
     auctionId:          number;
+    image: string[];
 }
 
 export interface RealEstateImage {

@@ -67,9 +67,8 @@ export default function Inventory() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Estates' Id</TableCell>
-                            <TableCell align="left">Name</TableCell>
-                            {/* <TableCell align="left">Image</TableCell> */}
+                            <TableCell>Real Estate</TableCell>
+                            <TableCell align="left">Name</TableCell>                          
                             <TableCell align="left">Address</TableCell>
                             <TableCell align="center"> Price</TableCell>
                             <TableCell align="center">StartPrice</TableCell>
@@ -84,14 +83,8 @@ export default function Inventory() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {product.id}
-                                </TableCell>
-                                {/* <TableCell align="left">
-                                    <Box display='flex' alignItems='center'>
-                                        <img src={''} alt={product.name} style={{ height: 50, marginRight: 20 }} />
-                                        <span>{product.name}</span>
-                                    </Box>
-                                </TableCell> */}
+                                    {product.code}
+                                </TableCell>                              
                                 <TableCell align="left">{product.name}</TableCell>
                                 <TableCell align="left">{product.address}</TableCell>
                                 <TableCell align="center">{product.price}.000.000 vnđ</TableCell>

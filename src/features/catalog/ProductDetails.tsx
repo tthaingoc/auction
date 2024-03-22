@@ -1,4 +1,4 @@
-import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+import { Avatar, Divider, Grid, List, ListItem, ListItemAvatar, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import NotFound from "../../app/error/NotFound";
@@ -31,7 +31,17 @@ if (productStatus.includes('pending')) return <LoadingCom message="Loading Real 
   return (
     <Grid container spacing={6}>
             <Grid item xs={6}>
-                <img src={product.code} alt={product.name} style={{ width: '100%' }} />
+                <img src={product.realEstateImages[0].imageURL} alt={product.name} style={{ width: '100%' }} />
+                <Typography variant='h6' sx={{ mt: 4 }}>Hình ảnh khác:</Typography>
+                <List sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                    {product.realEstateImages.slice(1).map((image, index) => (
+                        <ListItem key={index}>
+                            <ListItemAvatar>
+                                <Avatar variant="rounded" src={image.imageURL} alt={`Image ${index + 1}`} />
+                            </ListItemAvatar>
+                        </ListItem>
+                    ))}
+                </List>
             </Grid>
             <Grid item xs={6}>
                 <Typography variant='h3'>{product.name}</Typography>

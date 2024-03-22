@@ -16,8 +16,8 @@ export default function AppDropzone(props: Props) {
         borderRadius: '5px',
         paddingTop: '30px',
         alignItems: 'center',
-        height: 100,
-        width: 300
+        height: 200,
+        width: 500
     }
 
     const dzActive = {

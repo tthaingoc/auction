@@ -9,6 +9,6 @@ export const validationSchema = yup.object({
     address: yup.string().required('Address is required'),
     province: yup.string().required('Province is required'),
     description: yup.string().required('Description is required'),
-    auctionId: yup.number().required('AuctionId is required').positive('AuctionId must be positive'),
-    image: yup.string()
+    image: yup.mixed().required()
+
 });

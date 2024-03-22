@@ -2,7 +2,7 @@ import { Typography, Grid, Paper, Box, Button } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
 import AppTextInput from "../../app/components/AppTextInput";
 import { Product } from "../../app/models/product";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AppDropzone from "../../app/components/AppDropzone";
 import {yupResolver} from '@hookform/resolvers/yup';
 import { validationSchema } from "./productValidation";
@@ -23,7 +23,7 @@ export default function ProductForm({product, cancelEdit}: Props) {
         resolver: yupResolver<any>(validationSchema)
     });
     
-    const watchFile = watch('file', null)
+    const watchFile = watch('image', null)
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
@@ -36,11 +36,10 @@ export default function ProductForm({product, cancelEdit}: Props) {
     async function handleSubmitData(data: FieldValues) {
         try {
             let response : Product;
-            const formData = new FormData();
-            if (product) {
-                response = await agent.Admin.updateProduct(product.id, formData);
+            if(product) {
+                response = await agent.Admin.updateProduct(product.id, data);
             } else {
-                response = await agent.Admin.createProduct(formData);
+                response = await agent.Admin.createProduct(data);
             }
             dispatch(setProduct(response));
             cancelEdit();
@@ -48,18 +47,6 @@ export default function ProductForm({product, cancelEdit}: Props) {
             console.log(error);
         }
     }
-
-    const [formData, setFormData] = useState({
-        images: [],
-    });
-
-    const handleImageChange = (event : any) => {
-        const images = event.target.files;
-        setFormData({
-            ...formData,
-            images: Array.from(images), // Convert FileList to Array
-        });
-    };
 
     return (
         <Box component={Paper} sx={{p: 4}}>
@@ -92,17 +79,18 @@ export default function ProductForm({product, cancelEdit}: Props) {
                 <Grid item xs={12} sm={12}>
                     <AppTextInput multiline={true} rows={4} control={control} name='description' label='Description' />
                 </Grid>
-                <Grid item xs={12} sm={12}>
-                    <AppTextInput control={control} name='auctionId' label='AuctionId' />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                <Box display='flex' justifyContent='space-between' alignItems='center'>
-                    <input  type="file" multiple onChange={handleImageChange} />
-                    {formData.images.map((image, index) => (
-                        <img key={index} src={URL.createObjectURL(image)} alt={`preview ${index}`} style={{ maxHeight: 200 }} />
-                    ))}
-                </Box>
-            </Grid>
+                 <Grid item xs={12} sm={6}>
+                    <Box display='flex' justifyContent='space-between' alignItems='center'>
+                    <AppDropzone control={control} name='image'/>
+                            {watchFile ? (
+                                <img src={watchFile.preview} alt="preview" style={{ maxHeight: 200 }} />
+                            ) : (
+                                product?.realEstateImages[0]?.imageURL ? (
+                                    <img src={product.realEstateImages[0].imageURL} alt={product.name} style={{ maxHeight: 200 }} />
+                                ) : null
+                            )}
+                    </Box>             
+                </Grid>  
             </Grid>
             <Box display='flex' justifyContent='space-between' sx={{mt: 3}}>
                 <Button onClick={cancelEdit} variant='contained' color='inherit'>Cancel</Button>
