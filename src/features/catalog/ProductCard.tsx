@@ -33,13 +33,13 @@ export default function ProductCard({ product }: Props) {
                     sx: { fontWeight: 'bold', color: 'primary.main' }
                 }}
             />
-            {product.realEstateImages && product.realEstateImages.length > 0 && (
+           {product.realEstateImages && product.realEstateImages.length > 0 && (
     <CardMedia
         sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
         image={product.realEstateImages[0].imageURL}
         title={product.code}
     />
-)}
+) }
             <CardContent>
                 <Typography gutterBottom color='info.main' variant="h6" component="div">
                         {product.name}   

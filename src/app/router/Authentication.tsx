@@ -1,13 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAppSelector } from "../store/configureStore";
-import { toast } from 'react-toastify';
-
 
 interface Props {
-    roles?: number[];
+    roles?: number[]; // Update type to number array
 }
 
-export default function Authentication({ roles }: Props) {
+export default function Authentication({ roles }: Props) { // Change prop name to 'roles'
     const { user } = useAppSelector(state => state.account);
 
     const checkAuthorization = () => {
@@ -16,7 +15,7 @@ export default function Authentication({ roles }: Props) {
             return <Navigate to='/login' />;
         }
 
-        if (roles && !roles.some(r => user.role === r)) {
+        if (roles && !roles.some(r => user.roles.includes(r.toString()))) {
             toast.error('Not authorised to access this area');
             return <Navigate to='/catalog' />;
         }

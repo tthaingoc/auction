@@ -36,6 +36,9 @@ axios.interceptors.response.use(async response => {
         case 401:
             toast.error(data.title || 'Unauthorized');
             break;
+        case 403:
+            toast.error('Your role is not allowed to use this feature');
+            break;
         default:
             break;
     }

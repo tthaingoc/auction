@@ -22,10 +22,12 @@ export const router = createBrowserRouter([
         children: [
             {element: <Authentication/>, children:[
                 {path: 'auction', element: <AuctionList />},
+                {path: 'catalog', element: <Catalog />},
+            ]},
+             {element: <Authentication roles={[1]}/>, children:[
                 {path: 'inventory', element: <Inventory />}, 
             ]},
             {path: '', element: <HomePage />},
-            {path: 'catalog', element: <Catalog />},
             {path: 'catalog/:id', element: <ProductDetails />},
             {path: 'news', element: <NewsPage />},
             {path: 'about', element: <AboutPage />},

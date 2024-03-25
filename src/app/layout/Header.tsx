@@ -54,7 +54,7 @@ export default function Header() {
                       {title.toLocaleUpperCase()}
                   </ListItem>
                 ))}
-                {user &&
+                {user && user.role?.toString().includes('1') &&
                  <ListItem
                       component={NavLink}
                       to={'/inventory'}
