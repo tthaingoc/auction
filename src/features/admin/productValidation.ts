@@ -8,6 +8,7 @@ export const validationSchema = yup.object({
     acreage: yup.number().required('Acreage is required').positive('Acreage must be positive'),
     address: yup.string().required('Address is required'),
     province: yup.string().required('Province is required'),
+    auctionId: yup.number().required('Auction id is required'),
     description: yup.string().required('Description is required'),
     image: yup.mixed().required()
 

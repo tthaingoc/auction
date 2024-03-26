@@ -5,6 +5,7 @@ import { counterSlice } from "../../features/contact/maintainSlice"
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
 import { accountSlice } from "../../features/account/accountSlice"
 import { catalogSlice } from "../../features/catalog/catalogSlice"
+import { auctionSlice } from "../../features/auction/auctionSlice"
 
 
 // export default function configureStore() {
@@ -15,7 +16,8 @@ export const store  = configureStore({
     reducer: {
         counter: counterSlice.reducer,
         account: accountSlice.reducer,
-        catalog: catalogSlice.reducer
+        catalog: catalogSlice.reducer,
+        auction: auctionSlice.reducer,
     }
 })
 export type RootState = ReturnType<typeof store.getState>

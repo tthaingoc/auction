@@ -9,6 +9,8 @@ const midLinks = [
   {title: 'News', path: '/news'},
   {title: 'About', path: '/about'},
   {title: 'Contact', path: '/contact'},
+  {title: 'Account', path: '/account'},
+  
 ]
 const rightLinks = [
   {title: 'login', path: '/login'},

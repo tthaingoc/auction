@@ -70,6 +70,9 @@ const Admin = {
     createProduct: (product: any) => requests.postForm('RealEstate', createFormData(product)),
     updateProduct: (id: number, product: any) => requests.putForm(`RealEstate/${id}`, createFormData(product)),
     deleteProduct: (id: number) => requests.delete(`RealEstate/${id}`),
+    deleteAuction: (id: number) => requests.delete(`Auction/${id}`),
+    updateAuction: (id: number, auction: any) => requests.putForm(`Auction/${id}`, createFormData(auction)),
+    createAuction: (auction: any) => requests.postForm('Auction/auction', createFormData(auction)),
 }
 const Catalog = {
     list: () => requests.get('RealEstate'),
@@ -77,9 +80,12 @@ const Catalog = {
     details: (id: number) => requests.get(`RealEstate/${id}`)
 }
 const Auction = {
-    list: () => requests.get('Auction/UpcomingAuction'),
+    list: () => requests.get('Auction/no-paging'),
+    todayAuction: (id: number) => requests.get(`Auction/TodayAuction/${id}`),
+    upList: () => requests.get('Auction/UpcomingAuction'),
     getValidationError: () => requests.get('Auction/UpcomingAuction'),
-    details: (id: number) => requests.get(`Auction/UpcomingAuction/${id}`)
+    getValidationErrorA: () => requests.get('Auction/TodayAuction'),
+    details: (id: number) => requests.get(`Auction/${id}`)
 }
 
 const Order = {

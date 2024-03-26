@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Auction } from '../../app/models/auction';
-import { Typography, Grid, Alert, AlertTitle, List, ListItem, ListItemText } from '@mui/material';
+import { Typography, Grid, Alert, AlertTitle, List, ListItem, ListItemText, Box } from '@mui/material';
 import AuctionCard from './AuctionCard';
 import agent from '../../app/api/agent';
 
@@ -12,11 +12,13 @@ export default function AuctionList() {
 
     useEffect(() => {       
         agent.Auction.list().then(auctions => setUpcomingAuction(auctions)).catch(error => setValidationErrors(error));
+        
     }, []);
 
     return (
-        <>                         
-            <Typography variant="h6" gutterBottom className='content-element' style={{ marginBottom: '50px' }}>
+        <>     
+
+        <Typography variant="h6" gutterBottom className='content-element' style={{ marginBottom: '50px' }}>
                 Các cuộc đấu giá đang diễn ra
             </Typography>
             <Grid container spacing={4}>
@@ -37,6 +39,7 @@ export default function AuctionList() {
                         ))}
                     </List>
                 </Alert>}
+       
         </>
     );
 }

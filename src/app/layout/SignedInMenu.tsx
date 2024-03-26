@@ -2,6 +2,8 @@ import { Button, Menu, Fade, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { signOut } from "../../features/account/accountSlice";
+import AuctionTable from "../../features/admin/AuctionTable";
+import { Link } from "react-router-dom";
 
 export default function SignedInMenu() {
   const dispatch = useAppDispatch();
@@ -32,7 +34,7 @@ export default function SignedInMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem component={Link} to={`/auction`}>Auction</MenuItem>
         <MenuItem divider onClick={handleClose} >Inventory</MenuItem>
         <MenuItem onClick={() => {
           dispatch(signOut())
