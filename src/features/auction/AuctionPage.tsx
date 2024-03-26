@@ -13,6 +13,7 @@ export default function AuctionPage() {
     const auction = useAppSelector(state => auctionSelector.selectById(state, parseInt(id!)));
     const { status: auctionStatus } = useAppSelector(state => state.auction);
 
+
     useEffect(() => {
         if (!auction) dispatch(fetchAuctionAsync(parseInt(id!)));
     }, [id, dispatch, auction])
@@ -68,12 +69,12 @@ export default function AuctionPage() {
                 <Grid item xs={6}>
                     <Button
                         component={Link}
-                        to={'/checkout'}
+                        to={'/'}
                         variant='contained'
                         size='large'
                         fullWidth
                     >
-                        Nâng giá
+                        START AUCTION
                     </Button>
                 </Grid>
             </Grid>

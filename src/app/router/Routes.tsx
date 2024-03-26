@@ -12,9 +12,9 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import Inventory from "../../features/admin/Inventory";
 import Authentication from "./Authentication";
-import Profile from "../../features/account/Profile";
 import AuctionTable from "../../features/admin/AuctionTable";
 import AuctionPage from "../../features/auction/AuctionPage";
+import ManageAccount from "../../features/account/ManageAccount";
 //import Register from "../../features/account/Register";
 
 export const router = createBrowserRouter([
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
             {path: 'contact', element: <ContactPage />}, 
             {path: 'login', element: <Login />},           
             {path: 'register', element: <Register />}, 
-            {path: 'account', element: <Profile />}, 
+            {path: 'account', element: <ManageAccount />}, 
             {path: 'not-found', element: <NotFound />},           
             {path: '*', element: <Navigate replace to='/not-found' />},           
         ]
